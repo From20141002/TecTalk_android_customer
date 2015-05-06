@@ -43,6 +43,8 @@ public class CustomerActivity extends ActionBarActivity {
 
 	private JSONArray jArray;
 	private JSONObject jObject;
+	
+	private ArrayList<String> arrayList =  new ArrayList<String>();
 
 	private ListView listViewResult;
 	private ArrayAdapter<String> itemAdapter;
@@ -79,10 +81,9 @@ public class CustomerActivity extends ActionBarActivity {
 			
 			Intent intent_item = new Intent(getApplicationContext(), MoreActivity.class);
 		
-			intent_item.putExtra("cus_id",cus_id);
-			intent_item.putExtra("item_info",item_info);
+			intent_item.putExtra("dri_id",arrayList.get(position));
 			startActivity(intent_item);
-			finish();
+			
 			
 			 
 		}
@@ -133,12 +134,12 @@ public class CustomerActivity extends ActionBarActivity {
 				jArray = new JSONArray(result);
 				jObject = new JSONObject();
 				Log.d("aaa", "cus result : " + result);
-
 				for (int i = 0; i < jArray.length(); i++) {
 					jObject = jArray.getJSONObject(i);
 					text = jObject.getString("item_info");
 					itemAdapter.add(text);
-					Log.d("aaa", "text : " + text);
+					arrayList.add(jObject.getString("dri_id"));
+					Log.d("aaa", "text : " + text+i);
 				}
 			} catch (Exception e) {
 			}
