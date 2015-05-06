@@ -35,8 +35,8 @@ public class MoreActivity extends ActionBarActivity {
 	private String result_set;
 	private String text = "";
 	private String text_set = "";
-	
-	private TextView txtViewResult;
+
+	private TextView txtviewResult;
 
 	private JSONArray jArray_set;
 	private JSONObject jObject_set;
@@ -45,11 +45,11 @@ public class MoreActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_more);
-		txtViewResult = (TextView)findViewById(R.id.txtviewResult);
+		txtviewResult = (TextView) findViewById(R.id.txtviewResult);
 
 		intent = getIntent();
 		dri_id = intent.getExtras().getString("dri_id");
-		Log.d("aaaa", "dri_id = "+dri_id);
+		Log.d("aaaa", "dri_id = " + dri_id);
 
 		new ConnectServer().execute(null, null, null);
 	}
@@ -74,25 +74,16 @@ public class MoreActivity extends ActionBarActivity {
 				HttpGet httpSet = new HttpGet(url_set);
 				HttpResponse response_set = client.execute(httpSet);
 
-
-				
 				result_set = EntityUtils.toString(response_set.getEntity());
-				jArray_set = new JSONArray(result_set);
-				jObject_set = new JSONObject();
-				
-				for (int i = 0; i < jArray_set.length(); i++) {
-					jObject_set = jArray_set.getJSONObject(i);
-					text_set += jObject_set.getString("dri_id");
-					text_set += jObject_set.getString("dri_name");
-					text_set += jObject_set.getString("dri_phone");
-					text_set += jObject_set.getString("dri_company");
-					Log.d("aaaa", "text : " + text_set);
-				}
-				
+				jObject_set = new JSONObject(result_set);
 
-				Log.d("aaa", "text : " + text);
+				text_set += jObject_set.getString("dri_id");
+				text_set += jObject_set.getString("dri_name");
+				text_set += jObject_set.getString("dri_phone");
+				text_set += jObject_set.getString("dri_company");
+				Log.d("aaaa", "text : " + text_set);
 
-				Log.d("aaa", "text : " + text);
+
 			} catch (Exception e) {
 				Log.d("aaa", "error : " + e.toString());
 			}
@@ -104,7 +95,7 @@ public class MoreActivity extends ActionBarActivity {
 		protected void onPostExecute(Void result_) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result_);
-			txtViewResult.setText(text_set);
+			txtviewResult.setText(text_set);
 
 		}
 	}

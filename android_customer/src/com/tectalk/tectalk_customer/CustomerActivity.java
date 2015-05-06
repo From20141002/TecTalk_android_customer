@@ -32,7 +32,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class CustomerActivity extends ActionBarActivity {
-	String abc = "123";
+	
 
 	private Intent intent;
 	private String cus_id;
@@ -77,7 +77,7 @@ public class CustomerActivity extends ActionBarActivity {
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			
-			item_info = itemAdapter.getItem(position);
+			
 			
 			Intent intent_item = new Intent(getApplicationContext(), MoreActivity.class);
 		
