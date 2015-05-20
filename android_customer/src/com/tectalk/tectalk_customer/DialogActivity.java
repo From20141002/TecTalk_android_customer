@@ -44,7 +44,8 @@ TextView txtMsg;
 	
 	String msg;
 	String phoneDri;
-	String url = "http://182.162.90.100/TecTalk/Getgetbyhand";
+	String cusId;
+	String url = "http://182.162.90.100/TecTalk/SetGetByHand";
 	
 	Toast toast;
 	
@@ -59,6 +60,7 @@ TextView txtMsg;
 		intent =getIntent();
 		msg = intent.getExtras().getString("msg");
 		phoneDri = intent.getExtras().getString("phoneDri");
+		cusId = intent.getExtras().getString("cusId");
 		Log.d("intent",intent.getExtras().getString("msg"));
 
 		txtMsg = (TextView)findViewById(R.id.txtMsg);
@@ -118,10 +120,10 @@ TextView txtMsg;
 
 			HttpClient client = new DefaultHttpClient();
 			List<NameValuePair> values = new ArrayList<NameValuePair>();
-			values.add(new BasicNameValuePair("cusId", "ysjleader"));
+			values.add(new BasicNameValuePair("cusId", cusId));
 			values.add(new BasicNameValuePair("getbyhand", getByHand));
 			values.add(new BasicNameValuePair("phoneDri", phoneDri));
-			values.add(new BasicNameValuePair("item_info", "OBJECT"));
+			values.add(new BasicNameValuePair("itemInfo", "OBJECT"));
 
 			HttpParams param = client.getParams();
 			HttpConnectionParams.setConnectionTimeout(param, 5000);

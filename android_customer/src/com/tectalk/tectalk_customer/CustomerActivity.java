@@ -51,10 +51,9 @@ public class CustomerActivity extends ActionBarActivity {
 	private Intent intent;
 	public static String cusId = "";
 	private String url = "http://182.162.90.100/TecTalk/GetItemInfo";
-//	private String url2 = "http://182.162.90.100/TecTalk/SaveCusGCM";
+	private String urlDelete = "http://182.162.90.100/TecTalk/DeletePhoneId";
 	private String result;
 	private String text = "";
-	private String item_info = "";
 	private static String phoneId = "";
 
 	private JSONArray jArray;
@@ -109,8 +108,6 @@ public class CustomerActivity extends ActionBarActivity {
 
 				if (GCMRegistrar.getRegistrationId(mContext).equals("")) {
 					GCMRegistrar.register(mContext, PROJECT_ID);
-					phoneId = GCMRegistrar.getRegistrationId(mContext);
-					Log.d("test","왜이럴까"+phoneId);
 					//new ConnectServer2().execute(null,null,null);
 				}Log.d("test","값이 널이니?"+phoneId);
 
@@ -124,6 +121,8 @@ public class CustomerActivity extends ActionBarActivity {
 						"푸쉬 메시지를 받지 않습니다.", Toast.LENGTH_SHORT);
 				toast.show();
 				GCMRegistrar.unregister(mContext);
+				new ConnectDeleteGCM().execute(null,null,null);
+				
 
 			}
 
@@ -140,7 +139,7 @@ public class CustomerActivity extends ActionBarActivity {
 			Intent intent_item = new Intent(getApplicationContext(),
 					MoreActivity.class);
 
-			intent_item.putExtra("dri_id", arrayList.get(position));
+			intent_item.putExtra("driId", arrayList.get(position));
 			startActivity(intent_item);
 
 		}
@@ -201,58 +200,50 @@ public class CustomerActivity extends ActionBarActivity {
 
 	}
 	
-	/*private class ConnectServer2 extends AsyncTask<Void,Void,Void>{
+	private class ConnectDeleteGCM extends AsyncTask<Void, Void, Void> {
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			
+			// TODO Auto-generated method stub
+
 			HttpClient client = new DefaultHttpClient();
 			List<NameValuePair> values = new ArrayList<NameValuePair>();
 			values.add(new BasicNameValuePair("CUS_ID", cusId));
-			values.add(new BasicNameValuePair("PHONE_ID", phoneId));
 
-			
+
 			HttpParams param = client.getParams();
 			HttpConnectionParams.setConnectionTimeout(param, 5000);
 			HttpConnectionParams.setSoTimeout(param, 5000);
-			
-			
+
 			try {
-				
-				URI uri = new URI(url2);
-				HttpPost httpPost = new HttpPost(uri);
+
+
+				HttpPost httpPost = new HttpPost(urlDelete);
 				UrlEncodedFormEntity entity = new UrlEncodedFormEntity(values, "UTF-8");
 				httpPost.setEntity(entity);
 				HttpResponse response = client.execute(httpPost);
 				String _result = EntityUtils.toString(response.getEntity());
 				
 				Log.d("aaa", " result : " + _result);
-				if(_result.contains("success")){
-					resultResist = true;
-				} else resultResist = false;
-			} catch(Exception e){
-				Log.d("aaa","error : " + e.toString());
-				
-			} return null;
-		}
+				Log.d("aaaaa","성공한듯???");
 		
-		@Override
-		protected void onPostExecute(Void res){
-			super.onPostExecute(res);
-			
-			if(resultResist){
-				
-				toast = Toast.makeText(getApplicationContext(), "Id 등록 성공", Toast.LENGTH_SHORT);
-				toast.show();
-				finish();
-			} else{
-				toast = Toast.makeText(getApplicationContext(), "아이디가 이미 있습니다.", Toast.LENGTH_SHORT);
-				toast.show();
+
+			} catch (Exception e) {
+				Log.d("aaa", "error : " + e.toString());
 			}
+
+			return null;
 		}
-		
-		
-	}*/
+
+		@Override
+		protected void onPostExecute(Void result_) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result_);
+			
+
+		}
+
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

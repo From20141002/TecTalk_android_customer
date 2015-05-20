@@ -35,8 +35,8 @@ public class MainActivity extends ActionBarActivity {
 	Button btnJoin;
 	Button btnLogin;
 	
-	String cus_id;
-	String cus_passwd;
+	String cusId;
+	String cusPasswd;
 	Toast toast;
 	
 	String url = "http://182.162.90.100/TecTalk/LoginCus";
@@ -72,8 +72,8 @@ public class MainActivity extends ActionBarActivity {
 	private void getCusInfo(){
 		if(putId.getText().toString().length() !=0 ){
 			if(putPasswd.getText().toString().length() !=0 ){
-				cus_id = putId.getText().toString();
-				cus_passwd = putPasswd.getText().toString();
+				cusId = putId.getText().toString();
+				cusPasswd = putPasswd.getText().toString();
 				
 				new ConnectServer().execute(null,null,null);
 			}else {
@@ -94,8 +94,8 @@ public class MainActivity extends ActionBarActivity {
 
 			HttpClient client = new DefaultHttpClient();
 			List<NameValuePair> values = new ArrayList<NameValuePair>();
-			values.add(new BasicNameValuePair("CUS_ID", cus_id));
-			values.add(new BasicNameValuePair("CUS_PW", cus_passwd));
+			values.add(new BasicNameValuePair("CUS_ID", cusId));
+			values.add(new BasicNameValuePair("CUS_PW", cusPasswd));
 			
 			HttpParams param = client.getParams();
 			HttpConnectionParams.setConnectionTimeout(param, 5000);
@@ -125,7 +125,7 @@ public class MainActivity extends ActionBarActivity {
 			super.onPostExecute(res);
 			if(result){
 				Intent intent = new Intent(getApplicationContext(), CustomerActivity.class);
-				intent.putExtra("cus_id",cus_id);
+				intent.putExtra("cus_id",cusId);
 				startActivity(intent);
 				finish();
 			}else{

@@ -30,16 +30,14 @@ import android.widget.TextView;
 public class MoreActivity extends ActionBarActivity {
 	private Intent intent;
 
-	private String dri_id;
-	private String url_set = "http://182.162.90.100/TecTalk/SetDriInfo";
-	private String result_set;
-	private String text = "";
-	private String text_set = "";
+	private String driId;
+	private String urlSet = "http://182.162.90.100/TecTalk/SetDriInfo";
+	private String resultSet;
+	private String textSet = "";
 
 	private TextView txtviewResult;
 
-	private JSONArray jArray_set;
-	private JSONObject jObject_set;
+	private JSONObject jObjectSet;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +46,8 @@ public class MoreActivity extends ActionBarActivity {
 		txtviewResult = (TextView) findViewById(R.id.txtviewResult);
 
 		intent = getIntent();
-		dri_id = intent.getExtras().getString("dri_id");
-		Log.d("aaaa", "dri_id = " + dri_id);
+		driId = intent.getExtras().getString("driId");
+		Log.d("aaaa", "dri_id = " + driId);
 
 		new ConnectServer().execute(null, null, null);
 	}
@@ -62,26 +60,26 @@ public class MoreActivity extends ActionBarActivity {
 
 			HttpClient client = new DefaultHttpClient();
 			List<NameValuePair> values_set = new ArrayList<NameValuePair>();
-			values_set.add(new BasicNameValuePair("DRIVER_ID", dri_id));
+			values_set.add(new BasicNameValuePair("DRIVER_ID", driId));
 
 			HttpParams param = client.getParams();
 			HttpConnectionParams.setConnectionTimeout(param, 5000);
 			HttpConnectionParams.setSoTimeout(param, 5000);
 
 			try {
-				url_set = url_set + "?"
+				urlSet = urlSet + "?"
 						+ URLEncodedUtils.format(values_set, "UTF-8");
-				HttpGet httpSet = new HttpGet(url_set);
+				HttpGet httpSet = new HttpGet(urlSet);
 				HttpResponse response_set = client.execute(httpSet);
 
-				result_set = EntityUtils.toString(response_set.getEntity());
-				jObject_set = new JSONObject(result_set);
+				resultSet = EntityUtils.toString(response_set.getEntity());
+				jObjectSet = new JSONObject(resultSet);
 
-				text_set += jObject_set.getString("dri_id");
-				text_set += jObject_set.getString("dri_name");
-				text_set += jObject_set.getString("dri_phone");
-				text_set += jObject_set.getString("dri_company");
-				Log.d("aaaa", "text : " + text_set);
+				textSet += jObjectSet.getString("dri_id");
+				textSet += jObjectSet.getString("dri_name");
+				textSet += jObjectSet.getString("dri_phone");
+				textSet += jObjectSet.getString("dri_company");
+				Log.d("aaaa", "text : " + textSet);
 
 
 			} catch (Exception e) {
@@ -95,7 +93,7 @@ public class MoreActivity extends ActionBarActivity {
 		protected void onPostExecute(Void result_) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result_);
-			txtviewResult.setText(text_set);
+			txtviewResult.setText(textSet);
 
 		}
 	}

@@ -42,6 +42,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	static String phoneCus = "";
 
 	private boolean resultResist = false;
+	static private String error = "";
 
 	@Override
 	protected void onError(Context arg0, String arg1) {
@@ -54,6 +55,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	protected void onMessage(Context arg0, Intent intent) {
 		Log.d("test", "메시지왔당~");
 		Log.d("test", intent.getExtras().getString("test"));
+		CustomerActivity customerAcivity = new CustomerActivity();
 
 		try {
 			jObject = new JSONObject(intent.getExtras().getString("test"));
@@ -65,6 +67,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 					DialogActivity.class);
 			intentNoti.putExtra("msg", msg);
 			intentNoti.putExtra("phoneDri", phoneDri);
+			intentNoti.putExtra("cusId", customerAcivity.cusId);
 
 			PendingIntent pendingIntent = PendingIntent.getActivity(
 					getApplicationContext(), 0, intentNoti,
@@ -101,7 +104,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		Log.d("test", "cusId 가져왔어?" + customerActivity.cusId);
 		cusId = customerActivity.cusId;
 		phoneCus = phoneId;
-		
+
 		new ConnectServer().execute(null, null, null);
 
 	}
@@ -144,8 +147,15 @@ public class GCMIntentService extends GCMBaseIntentService {
 				Log.d("aaa", " result : " + _result);
 				if (_result.contains("success")) {
 					resultResist = true;
-				} else
-					resultResist = false;
+
+				} else if (_result.contains("error")) {
+					error = "error";
+
+				}else{
+					resultResist= false;
+					error = "";
+
+				}
 			} catch (Exception e) {
 				Log.d("aaa", "error : " + e.toString());
 
@@ -163,10 +173,16 @@ public class GCMIntentService extends GCMBaseIntentService {
 						Toast.LENGTH_SHORT);
 				toast.show();
 
-			} else {
+			} else if(resultResist == false){
+				if(error.equals("")){
 				toast = Toast.makeText(getApplicationContext(),
 						"아이디가 이미 있습니다.", Toast.LENGTH_SHORT);
 				toast.show();
+				} else if(error.contains("error")){
+					toast = Toast.makeText(getApplicationContext(),
+							"오류가 발생하였습니다.", Toast.LENGTH_SHORT);
+					toast.show();
+				}
 			}
 		}
 
