@@ -7,5 +7,8 @@
     <string name="title_activity_customer">CustomerActivity</string>
     <string name="title_activity_join">JoinActivity</string>
     <string name="title_activity_more">MoreActivity</string>
+    <string name="title_activity_dialog">DialogActivity</string>
+    <string name="title_activity_gcmintent_service">GCMIntentService</string>
+    <string name="title_activity_resist">ResistActivity</string>
 
 </resources>
