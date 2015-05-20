@@ -40,6 +40,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	static String phoneDri = "";
 	static String cusId = "";
 	static String phoneCus = "";
+	static String itemInfo = "";
 
 	private boolean resultResist = false;
 	static private String error = "";
@@ -62,12 +63,14 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 			msg = jObject.getString("msg");
 			phoneDri = jObject.getString("phoneDri");
+			itemInfo = jObject.getString("itemInfo");
 
 			intentNoti = new Intent(getApplicationContext(),
 					DialogActivity.class);
 			intentNoti.putExtra("msg", msg);
 			intentNoti.putExtra("phoneDri", phoneDri);
 			intentNoti.putExtra("cusId", customerAcivity.cusId);
+			intentNoti.putExtra("itemInfo",itemInfo);
 
 			PendingIntent pendingIntent = PendingIntent.getActivity(
 					getApplicationContext(), 0, intentNoti,
