@@ -60,18 +60,13 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 		try {
 			jObject = new JSONObject(intent.getExtras().getString("test"));
-
-			msg = jObject.getString("msg");
-			phoneDri = jObject.getString("phoneDri");
-			itemInfo = jObject.getString("itemInfo");
-
 			intentNoti = new Intent(getApplicationContext(),
 					DialogActivity.class);
-			intentNoti.putExtra("msg", msg);
-			intentNoti.putExtra("phoneDri", phoneDri);
+			intentNoti.putExtra("test", jObject.toString());
+		//	intentNoti.putExtra("msg", msg);
+		//	intentNoti.putExtra("phoneDri", phoneDri);
 			intentNoti.putExtra("cusId", customerAcivity.cusId);
-			intentNoti.putExtra("itemInfo",itemInfo);
-
+		//	intentNoti.putExtra("itemInfo",itemInfo);
 			PendingIntent pendingIntent = PendingIntent.getActivity(
 					getApplicationContext(), 0, intentNoti,
 					PendingIntent.FLAG_UPDATE_CURRENT);
@@ -154,8 +149,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 				} else if (_result.contains("error")) {
 					error = "error";
 
-				}else{
-					resultResist= false;
+				} else {
+					resultResist = false;
 					error = "";
 
 				}
@@ -176,12 +171,12 @@ public class GCMIntentService extends GCMBaseIntentService {
 						Toast.LENGTH_SHORT);
 				toast.show();
 
-			} else if(resultResist == false){
-				if(error.equals("")){
-				toast = Toast.makeText(getApplicationContext(),
-						"아이디가 이미 있습니다.", Toast.LENGTH_SHORT);
-				toast.show();
-				} else if(error.contains("error")){
+			} else if (resultResist == false) {
+				if (error.equals("")) {
+					toast = Toast.makeText(getApplicationContext(),
+							"아이디가 이미 있습니다.", Toast.LENGTH_SHORT);
+					toast.show();
+				} else if (error.contains("error")) {
 					toast = Toast.makeText(getApplicationContext(),
 							"오류가 발생하였습니다.", Toast.LENGTH_SHORT);
 					toast.show();

@@ -13,6 +13,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.tectalk.tectalk_customer.R;
 
@@ -58,13 +60,29 @@ TextView txtMsg;
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_dialog);
 		
-		intent =getIntent();
+		/*
 		msg = intent.getExtras().getString("msg");
 		phoneDri = intent.getExtras().getString("phoneDri");
 		cusId = intent.getExtras().getString("cusId");
 		itemInfo = intent.getExtras().getString("itemInfo");
 		Log.d("intent",intent.getExtras().getString("msg"));
-
+*/
+		
+		JSONObject jObject = null;
+		intent =getIntent();
+		try {
+			jObject = new JSONObject(intent.getExtras().getString("test"));
+			cusId = intent.getExtras().getString("cusId");
+			msg = jObject.getString("msg");
+			phoneDri = jObject.getString("phoneDri");
+			itemInfo = jObject.getString("itemInfo");
+			Log.d("test" , "intent : " + phoneDri + "님이 " + msg + "분 내로 " + itemInfo +"상품을 배송할 예저잉ㅂ니다");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		txtMsg = (TextView)findViewById(R.id.txtMsg);
 		btnO = (Button)findViewById(R.id.btnO);
 		btnX = (Button)findViewById(R.id.btnX);
@@ -89,8 +107,6 @@ TextView txtMsg;
 			toast = Toast.makeText(getApplicationContext(),"상품을 직접 수령합니다.",Toast.LENGTH_SHORT);
 			toast.show();
 			finish();
-			
-			
 			
 		}
 		
