@@ -117,10 +117,10 @@ public class JoinActivity extends ActionBarActivity {
 			
 			HttpClient client = new DefaultHttpClient();
 			List<NameValuePair> values = new ArrayList<NameValuePair>();
-			values.add(new BasicNameValuePair("CUS_ID", cus_id));
-			values.add(new BasicNameValuePair("CUS_NAME", cus_name));
-			values.add(new BasicNameValuePair("CUS_PHONE", cus_phone));
-			values.add(new BasicNameValuePair("CUS_PW", cus_passwd));
+			values.add(new BasicNameValuePair("CUSID", cus_id));
+			values.add(new BasicNameValuePair("CUSNAME", cus_name));
+			values.add(new BasicNameValuePair("CUSPHONE", cus_phone));
+			values.add(new BasicNameValuePair("CUSPW", cus_passwd));
 			
 			HttpParams param = client.getParams();
 			HttpConnectionParams.setConnectionTimeout(param, 5000);

@@ -58,8 +58,6 @@ public class CustomerActivity extends ActionBarActivity {
 
 	private JSONArray jArray;
 	private JSONObject jObject;
-	
-	//private boolean resultResist = false;
 
 	private ArrayList<String> arrayList = new ArrayList<String>();
 
@@ -82,7 +80,7 @@ public class CustomerActivity extends ActionBarActivity {
 		listViewResult.setOnItemClickListener(onClickListItem);
 
 		intent = getIntent();
-		cusId = intent.getExtras().getString("cus_id");
+		cusId = intent.getExtras().getString("CUSID");
 		cb_setting = (CheckBox) findViewById(R.id.checkBox);
 		cb_setting.setChecked(!GCMRegistrar.getRegistrationId(mContext).equals(
 				""));
@@ -108,21 +106,16 @@ public class CustomerActivity extends ActionBarActivity {
 
 				if (GCMRegistrar.getRegistrationId(mContext).equals("")) {
 					GCMRegistrar.register(mContext, PROJECT_ID);
-					//new ConnectServer2().execute(null,null,null);
-				}Log.d("test","값이 널이니?"+phoneId);
+				}
+				Log.d("test", "값이 널이니?" + phoneId);
 
-			}
-
-			// 푸쉬 받지않기
-
-			else {
+			}else { // 푸쉬 받지않기
 
 				toast = Toast.makeText(getApplicationContext(),
 						"푸쉬 메시지를 받지 않습니다.", Toast.LENGTH_SHORT);
 				toast.show();
 				GCMRegistrar.unregister(mContext);
-				new ConnectDeleteGCM().execute(null,null,null);
-				
+				new ConnectDeleteGCM().execute(null, null, null);
 
 			}
 
@@ -139,7 +132,7 @@ public class CustomerActivity extends ActionBarActivity {
 			Intent intent_item = new Intent(getApplicationContext(),
 					MoreActivity.class);
 
-			intent_item.putExtra("driId", arrayList.get(position));
+			intent_item.putExtra("DRIID", arrayList.get(position));
 			startActivity(intent_item);
 
 		}
@@ -154,7 +147,7 @@ public class CustomerActivity extends ActionBarActivity {
 
 			HttpClient client = new DefaultHttpClient();
 			List<NameValuePair> values = new ArrayList<NameValuePair>();
-			values.add(new BasicNameValuePair("CUSTOMER_ID", cusId));
+			values.add(new BasicNameValuePair("CUSID", cusId));
 
 			HttpParams param = client.getParams();
 			HttpConnectionParams.setConnectionTimeout(param, 5000);
@@ -188,9 +181,9 @@ public class CustomerActivity extends ActionBarActivity {
 				Log.d("aaa", "cus result : " + result);
 				for (int i = 0; i < jArray.length(); i++) {
 					jObject = jArray.getJSONObject(i);
-					text = jObject.getString("item_info");
+					text = jObject.getString("ITEMINFO");
 					itemAdapter.add(text);
-					arrayList.add(jObject.getString("dri_id"));
+					arrayList.add(jObject.getString("DRIID"));
 					Log.d("aaa", "text : " + text + i);
 				}
 			} catch (Exception e) {
@@ -199,7 +192,7 @@ public class CustomerActivity extends ActionBarActivity {
 		}
 
 	}
-	
+
 	private class ConnectDeleteGCM extends AsyncTask<Void, Void, Void> {
 
 		@Override
@@ -208,8 +201,7 @@ public class CustomerActivity extends ActionBarActivity {
 
 			HttpClient client = new DefaultHttpClient();
 			List<NameValuePair> values = new ArrayList<NameValuePair>();
-			values.add(new BasicNameValuePair("CUS_ID", cusId));
-
+			values.add(new BasicNameValuePair("CUSID", cusId));
 
 			HttpParams param = client.getParams();
 			HttpConnectionParams.setConnectionTimeout(param, 5000);
@@ -217,16 +209,15 @@ public class CustomerActivity extends ActionBarActivity {
 
 			try {
 
-
 				HttpPost httpPost = new HttpPost(urlDelete);
-				UrlEncodedFormEntity entity = new UrlEncodedFormEntity(values, "UTF-8");
+				UrlEncodedFormEntity entity = new UrlEncodedFormEntity(values,
+						"UTF-8");
 				httpPost.setEntity(entity);
 				HttpResponse response = client.execute(httpPost);
 				String _result = EntityUtils.toString(response.getEntity());
-				
+
 				Log.d("aaa", " result : " + _result);
-				Log.d("aaaaa","성공한듯???");
-		
+				Log.d("aaaaa", "성공한듯???");
 
 			} catch (Exception e) {
 				Log.d("aaa", "error : " + e.toString());
@@ -239,7 +230,6 @@ public class CustomerActivity extends ActionBarActivity {
 		protected void onPostExecute(Void result_) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result_);
-			
 
 		}
 

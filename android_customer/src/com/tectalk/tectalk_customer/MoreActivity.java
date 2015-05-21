@@ -46,7 +46,7 @@ public class MoreActivity extends ActionBarActivity {
 		txtviewResult = (TextView) findViewById(R.id.txtviewResult);
 
 		intent = getIntent();
-		driId = intent.getExtras().getString("driId");
+		driId = intent.getExtras().getString("DRIID");
 		Log.d("aaaa", "dri_id = " + driId);
 
 		new ConnectServer().execute(null, null, null);
@@ -60,7 +60,7 @@ public class MoreActivity extends ActionBarActivity {
 
 			HttpClient client = new DefaultHttpClient();
 			List<NameValuePair> values_set = new ArrayList<NameValuePair>();
-			values_set.add(new BasicNameValuePair("DRIVER_ID", driId));
+			values_set.add(new BasicNameValuePair("DRIID", driId));
 
 			HttpParams param = client.getParams();
 			HttpConnectionParams.setConnectionTimeout(param, 5000);
@@ -75,10 +75,10 @@ public class MoreActivity extends ActionBarActivity {
 				resultSet = EntityUtils.toString(response_set.getEntity());
 				jObjectSet = new JSONObject(resultSet);
 
-				textSet += jObjectSet.getString("dri_id");
-				textSet += jObjectSet.getString("dri_name");
-				textSet += jObjectSet.getString("dri_phone");
-				textSet += jObjectSet.getString("dri_company");
+				textSet += jObjectSet.getString("DRIID");
+				textSet += jObjectSet.getString("DRINAME");
+				textSet += jObjectSet.getString("DRIPHONE");
+				textSet += jObjectSet.getString("DRICOMPANY");
 				Log.d("aaaa", "text : " + textSet);
 
 

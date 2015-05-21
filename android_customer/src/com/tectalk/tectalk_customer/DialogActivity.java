@@ -60,22 +60,15 @@ TextView txtMsg;
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_dialog);
 		
-		/*
-		msg = intent.getExtras().getString("msg");
-		phoneDri = intent.getExtras().getString("phoneDri");
-		cusId = intent.getExtras().getString("cusId");
-		itemInfo = intent.getExtras().getString("itemInfo");
-		Log.d("intent",intent.getExtras().getString("msg"));
-*/
 		
 		JSONObject jObject = null;
 		intent =getIntent();
 		try {
 			jObject = new JSONObject(intent.getExtras().getString("test"));
-			cusId = intent.getExtras().getString("cusId");
-			msg = jObject.getString("msg");
-			phoneDri = jObject.getString("phoneDri");
-			itemInfo = jObject.getString("itemInfo");
+			cusId = intent.getExtras().getString("CUSID");
+			msg = jObject.getString("TIME");
+			phoneDri = jObject.getString("PHONEDRI");
+			itemInfo = jObject.getString("ITEMINFO");
 			Log.d("test" , "intent : " + phoneDri + "님이 " + msg + "분 내로 " + itemInfo +"상품을 배송할 예저잉ㅂ니다");
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -138,21 +131,16 @@ TextView txtMsg;
 
 			HttpClient client = new DefaultHttpClient();
 			List<NameValuePair> values = new ArrayList<NameValuePair>();
-			values.add(new BasicNameValuePair("cusId", cusId));
-			values.add(new BasicNameValuePair("getbyhand", getByHand));
-			values.add(new BasicNameValuePair("phoneDri", phoneDri));
-			values.add(new BasicNameValuePair("itemInfo", itemInfo));
+			values.add(new BasicNameValuePair("CUSID", cusId));
+			values.add(new BasicNameValuePair("GETBYHAND", getByHand));
+			values.add(new BasicNameValuePair("PHONEDRI", phoneDri));
+			values.add(new BasicNameValuePair("ITEMINFO", itemInfo));
 
 			HttpParams param = client.getParams();
 			HttpConnectionParams.setConnectionTimeout(param, 5000);
 			HttpConnectionParams.setSoTimeout(param, 5000);
 
 			try {
-
-		//		url = url + "?" + URLEncodedUtils.format(values, "UTF-8");
-				//HttpGet httpGet = new HttpGet(url);
-
-				//HttpResponse response = client.execute(httpGet);
 				HttpPost httpPost = new HttpPost(url);
 				UrlEncodedFormEntity entity = new UrlEncodedFormEntity(values, "UTF-8");
 				httpPost.setEntity(entity);

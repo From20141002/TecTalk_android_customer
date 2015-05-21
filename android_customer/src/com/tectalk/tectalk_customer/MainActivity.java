@@ -94,8 +94,8 @@ public class MainActivity extends ActionBarActivity {
 
 			HttpClient client = new DefaultHttpClient();
 			List<NameValuePair> values = new ArrayList<NameValuePair>();
-			values.add(new BasicNameValuePair("CUS_ID", cusId));
-			values.add(new BasicNameValuePair("CUS_PW", cusPasswd));
+			values.add(new BasicNameValuePair("CUSID", cusId));
+			values.add(new BasicNameValuePair("CUSPW", cusPasswd));
 			
 			HttpParams param = client.getParams();
 			HttpConnectionParams.setConnectionTimeout(param, 5000);
@@ -125,7 +125,7 @@ public class MainActivity extends ActionBarActivity {
 			super.onPostExecute(res);
 			if(result){
 				Intent intent = new Intent(getApplicationContext(), CustomerActivity.class);
-				intent.putExtra("cus_id",cusId);
+				intent.putExtra("CUSID",cusId);
 				startActivity(intent);
 				finish();
 			}else{

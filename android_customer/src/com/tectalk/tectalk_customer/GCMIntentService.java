@@ -63,10 +63,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 			intentNoti = new Intent(getApplicationContext(),
 					DialogActivity.class);
 			intentNoti.putExtra("test", jObject.toString());
-		//	intentNoti.putExtra("msg", msg);
-		//	intentNoti.putExtra("phoneDri", phoneDri);
-			intentNoti.putExtra("cusId", customerAcivity.cusId);
-		//	intentNoti.putExtra("itemInfo",itemInfo);
+			intentNoti.putExtra("CUSID", customerAcivity.cusId);
 			PendingIntent pendingIntent = PendingIntent.getActivity(
 					getApplicationContext(), 0, intentNoti,
 					PendingIntent.FLAG_UPDATE_CURRENT);
@@ -92,12 +89,6 @@ public class GCMIntentService extends GCMBaseIntentService {
 	protected void onRegistered(Context arg0, String phoneId) {
 		// TODO Auto-generated method stub
 		Log.d("test", "등록ID:" + phoneId);
-		/*
-		 * Context context = getApplicationContext(); Intent intent = new
-		 * Intent(context, CustomerActivity.class);
-		 * intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		 * intent.putExtra("phone_Id", phoneId); context.startActivity(intent);
-		 */
 		CustomerActivity customerActivity = new CustomerActivity();
 		Log.d("test", "cusId 가져왔어?" + customerActivity.cusId);
 		cusId = customerActivity.cusId;
@@ -125,8 +116,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 			HttpClient client = new DefaultHttpClient();
 			List<NameValuePair> values = new ArrayList<NameValuePair>();
-			values.add(new BasicNameValuePair("CUS_ID", cusId));
-			values.add(new BasicNameValuePair("PHONE_ID", phoneCus));
+			values.add(new BasicNameValuePair("CUSID", cusId));
+			values.add(new BasicNameValuePair("PHONEID", phoneCus));
 
 			HttpParams param = client.getParams();
 			HttpConnectionParams.setConnectionTimeout(param, 5000);
