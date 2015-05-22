@@ -51,7 +51,6 @@ public class CustomerActivity extends ActionBarActivity {
 	private Intent intent;
 	public static String cusId = "";
 	private String url = "http://182.162.90.100/TecTalk/GetItemInfo";
-	private String urlDelete = "http://182.162.90.100/TecTalk/DeletePhoneId";
 	private String result;
 	private String text = "";
 	private static String phoneId = "";
@@ -115,7 +114,6 @@ public class CustomerActivity extends ActionBarActivity {
 						"푸쉬 메시지를 받지 않습니다.", Toast.LENGTH_SHORT);
 				toast.show();
 				GCMRegistrar.unregister(mContext);
-				new ConnectDeleteGCM().execute(null, null, null);
 
 			}
 
@@ -193,47 +191,7 @@ public class CustomerActivity extends ActionBarActivity {
 
 	}
 
-	private class ConnectDeleteGCM extends AsyncTask<Void, Void, Void> {
 
-		@Override
-		protected Void doInBackground(Void... params) {
-			// TODO Auto-generated method stub
-
-			HttpClient client = new DefaultHttpClient();
-			List<NameValuePair> values = new ArrayList<NameValuePair>();
-			values.add(new BasicNameValuePair("CUSID", cusId));
-
-			HttpParams param = client.getParams();
-			HttpConnectionParams.setConnectionTimeout(param, 5000);
-			HttpConnectionParams.setSoTimeout(param, 5000);
-
-			try {
-
-				HttpPost httpPost = new HttpPost(urlDelete);
-				UrlEncodedFormEntity entity = new UrlEncodedFormEntity(values,
-						"UTF-8");
-				httpPost.setEntity(entity);
-				HttpResponse response = client.execute(httpPost);
-				String _result = EntityUtils.toString(response.getEntity());
-
-				Log.d("aaa", " result : " + _result);
-				Log.d("aaaaa", "성공한듯???");
-
-			} catch (Exception e) {
-				Log.d("aaa", "error : " + e.toString());
-			}
-
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(Void result_) {
-			// TODO Auto-generated method stub
-			super.onPostExecute(result_);
-
-		}
-
-	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
