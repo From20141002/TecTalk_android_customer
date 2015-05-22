@@ -36,6 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class DialogActivity extends Activity {
+	GCMIntentService gcmIntentService; 
 
 TextView txtMsg;
 	
@@ -44,7 +45,7 @@ TextView txtMsg;
 	
 	Intent intent;
 	
-	String msg;
+	String time;
 	String phoneDri;
 	String cusId;
 	String itemInfo;
@@ -66,10 +67,10 @@ TextView txtMsg;
 		try {
 			jObject = new JSONObject(intent.getExtras().getString("test"));
 			cusId = intent.getExtras().getString("CUSID");
-			msg = jObject.getString("TIME");
+			time = jObject.getString("TIME");
 			phoneDri = jObject.getString("PHONEDRI");
 			itemInfo = jObject.getString("ITEMINFO");
-			Log.d("test" , "intent : " + phoneDri + "님이 " + msg + "분 내로 " + itemInfo +"상품을 배송할 예저잉ㅂ니다");
+			Log.d("test" , "intent : " + phoneDri + "님이 " + time + "분 내로 " + itemInfo +"상품을 배송할 예정입니다.");
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -79,7 +80,7 @@ TextView txtMsg;
 		txtMsg = (TextView)findViewById(R.id.txtMsg);
 		btnO = (Button)findViewById(R.id.btnO);
 		btnX = (Button)findViewById(R.id.btnX);
-		txtMsg.setText(msg);
+		txtMsg.setText(time+"분 내로 고객님께서 주문하신 "+itemInfo+" 상품을 배송 할 예정입니다.");
 		
 		btnO.setOnClickListener(onClickListenerO);
 		btnX.setOnClickListener(onClickListenerX);

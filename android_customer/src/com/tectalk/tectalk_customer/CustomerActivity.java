@@ -32,8 +32,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -45,6 +47,7 @@ public class CustomerActivity extends ActionBarActivity {
 
 	public static Context mContext = null;
 	public CheckBox cb_setting = null;
+	public Button btnClearAutoLogin;
 	public static String PROJECT_ID = "619658958148";
 	public Toast toast;
 
@@ -77,6 +80,10 @@ public class CustomerActivity extends ActionBarActivity {
 		listViewResult.setAdapter(itemAdapter);
 
 		listViewResult.setOnItemClickListener(onClickListItem);
+		
+		btnClearAutoLogin = (Button) findViewById(R.id.btnClearAutoLogin);
+		
+		btnClearAutoLogin.setOnClickListener(onClickClearAutoLogin);
 
 		intent = getIntent();
 		cusId = intent.getExtras().getString("CUSID");
@@ -89,6 +96,18 @@ public class CustomerActivity extends ActionBarActivity {
 		new ConnectServer().execute(null, null, null);
 
 	}
+	
+	public OnClickListener onClickClearAutoLogin = new OnClickListener(){
+
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			MainActivity.checked = false;
+			toast = Toast.makeText(getApplicationContext(), "자동 로그인 기능을 사용하지 않습니다.", Toast.LENGTH_SHORT);
+			toast.show();
+		}
+		
+	};
 
 	public OnCheckedChangeListener onCheckChanged = new OnCheckedChangeListener() {
 

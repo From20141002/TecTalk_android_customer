@@ -42,6 +42,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	static String cusId = "";
 	static String phoneCus = "";
 	static String itemInfo = "";
+	static int count = 0;
 
 	private boolean resultResist = false;
 	static private String error = "";
@@ -71,7 +72,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 			Notification notification = new Notification();
 			notification.icon = R.drawable.ic_launcher;
 			notification.when = new Date().getTime();
-			notification.number = 10;
+			count += 1;
+			notification.number = count;
 			notification.setLatestEventInfo(getApplicationContext(), "알림왔당~",
 					"알림와써요!!!", pendingIntent);
 			int notiId = 1;
