@@ -10,5 +10,6 @@
     <string name="title_activity_dialog">DialogActivity</string>
     <string name="title_activity_gcmintent_service">GCMIntentService</string>
     <string name="title_activity_resist">ResistActivity</string>
+    <string name="title_activity_setting">SettingActivity</string>
 
 </resources>

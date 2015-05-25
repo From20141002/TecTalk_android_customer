@@ -22,8 +22,10 @@ import org.json.JSONObject;
 import com.tectalk.tectalk_customer.R;
 import com.google.android.gcm.GCMRegistrar;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -47,7 +49,6 @@ public class CustomerActivity extends ActionBarActivity {
 
 	public static Context mContext = null;
 	public CheckBox cb_setting = null;
-	public Button btnClearAutoLogin;
 	public static String PROJECT_ID = "619658958148";
 	public Toast toast;
 
@@ -66,6 +67,8 @@ public class CustomerActivity extends ActionBarActivity {
 	private ListView listViewResult;
 	private ArrayAdapter<String> itemAdapter;
 
+	private SharedPreferences pref;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -81,9 +84,6 @@ public class CustomerActivity extends ActionBarActivity {
 
 		listViewResult.setOnItemClickListener(onClickListItem);
 		
-		btnClearAutoLogin = (Button) findViewById(R.id.btnClearAutoLogin);
-		
-		btnClearAutoLogin.setOnClickListener(onClickClearAutoLogin);
 
 		intent = getIntent();
 		cusId = intent.getExtras().getString("CUSID");
@@ -92,22 +92,13 @@ public class CustomerActivity extends ActionBarActivity {
 				""));
 
 		cb_setting.setOnCheckedChangeListener(onCheckChanged);
+		pref = getSharedPreferences("pref",
+				Activity.MODE_PRIVATE);
 
 		new ConnectServer().execute(null, null, null);
 
 	}
 	
-	public OnClickListener onClickClearAutoLogin = new OnClickListener(){
-
-		@Override
-		public void onClick(View v) {
-			// TODO Auto-generated method stub
-			MainActivity.checked = false;
-			toast = Toast.makeText(getApplicationContext(), "자동 로그인 기능을 사용하지 않습니다.", Toast.LENGTH_SHORT);
-			toast.show();
-		}
-		
-	};
 
 	public OnCheckedChangeListener onCheckChanged = new OnCheckedChangeListener() {
 
@@ -215,7 +206,7 @@ public class CustomerActivity extends ActionBarActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+		getMenuInflater().inflate(R.menu.customer, menu);
 		return true;
 	}
 
@@ -225,8 +216,20 @@ public class CustomerActivity extends ActionBarActivity {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
+		if (id == R.id.itemLogout) {
+
+			SharedPreferences.Editor editor = pref.edit();
+			editor.clear();
+			editor.commit();
+			intent = new Intent(getApplicationContext(),MainActivity.class);
+			startActivity(intent);
+			toast = Toast.makeText(getApplicationContext(), "로그아웃 되었습니다.", Toast.LENGTH_SHORT);
+			toast.show();
+			finish();
+		} else if(id==R.id.itemSetting){
+			intent = new Intent(getApplicationContext(),SettingActivity.class);
+			startActivity(intent);
+			
 		}
 		return super.onOptionsItemSelected(item);
 	}

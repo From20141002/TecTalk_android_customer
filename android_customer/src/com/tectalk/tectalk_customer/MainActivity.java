@@ -48,16 +48,17 @@ public class MainActivity extends ActionBarActivity {
 
 	String url = "http://182.162.90.100/TecTalk/LoginCus";
 	boolean result = false;
-	static boolean checked = false;
+	private boolean checked = false;
+	private SharedPreferences pref;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		SharedPreferences pref = getSharedPreferences("pref",
+		pref = getSharedPreferences("pref",
 				Activity.MODE_PRIVATE);
 		Log.d("pref","boolean값은 "+checked);
 
-		if (checked) {
+		if (pref.contains("CUSID")) {
 			cusId = pref.getString("CUSID", cusId);
 			Log.d("autologin","자동 로그인 실행 "+cusId);
 			Intent intent = new Intent(getApplicationContext(),
@@ -107,7 +108,6 @@ public class MainActivity extends ActionBarActivity {
 				toast = Toast.makeText(getApplicationContext(),
 						"자동 로그인 기능을 사용합니다.", Toast.LENGTH_SHORT);
 				toast.show();
-
 				checked = isChecked;
 
 			} else { // 푸쉬 받지않기
@@ -115,7 +115,6 @@ public class MainActivity extends ActionBarActivity {
 				toast = Toast.makeText(getApplicationContext(),
 						"자동 로그인 기능을 사용하지 않습니다.", Toast.LENGTH_SHORT);
 				toast.show();
-
 				checked = isChecked;
 
 			}
@@ -182,12 +181,11 @@ public class MainActivity extends ActionBarActivity {
 				Intent intent = new Intent(getApplicationContext(),
 						CustomerActivity.class);
 				intent.putExtra("CUSID", cusId);
-				SharedPreferences pref = getSharedPreferences("pref",
-						Activity.MODE_PRIVATE);
-				SharedPreferences.Editor editor = pref.edit();
-				editor.putString("CUSID", cusId);
-				editor.putString("CUSPASSWD", cusPasswd);
-				editor.commit();
+				if(checked){
+					SharedPreferences.Editor editor = pref.edit();
+					editor.putString("CUSID", cusId);
+					editor.commit();		
+				}
 				startActivity(intent);
 				finish();
 			} else {
